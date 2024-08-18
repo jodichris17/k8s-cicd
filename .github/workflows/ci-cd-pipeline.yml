@@ -7,7 +7,7 @@ on:
 
 jobs:
   provision-cluster:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -22,7 +22,7 @@ jobs:
           terraform apply -auto-approve
 
   versioning:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -50,7 +50,7 @@ jobs:
           git push
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: versioning
     steps:
       - name: Checkout code
@@ -73,7 +73,7 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/my-flask-app:${VERSION}
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build
     steps:
       - name: Checkout code
@@ -90,7 +90,7 @@ jobs:
           kubectl rollout status deployment/my-flask-app
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: deploy
     steps:
       - name: Run Tests
