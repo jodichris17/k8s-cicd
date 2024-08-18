@@ -27,20 +27,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Get Version
-        id: version
-        run: echo "::set-output name=version::$(date +'%Y.%m.%d.%H%M')"
+      - name: Read current version
+        id: current_version
+        run: |
+          if [ ! -f version.txt ]; then
+            echo "v1" > version.txt
+          fi
+          CURRENT_VERSION=$(cat version.txt)
+          echo "Current version: $CURRENT_VERSION"
+          NEXT_VERSION="v$(( ${CURRENT_VERSION:1} + 1 ))"
+          echo $NEXT_VERSION > version.txt
+          echo "New version: $NEXT_VERSION"
+          echo "::set-output name=version::$NEXT_VERSION"
 
       - name: Save Version
-        run: echo "VERSION=$(date +'%Y.%m.%d.%H%M')" > version.txt
-
-      - name: Commit Version
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add version.txt
-          git commit -m "Bump version to ${{ steps.version.outputs.version }}"
-          git push
+        run: echo "VERSION=$(cat version.txt)" > version.txt
 
   build:
     runs-on: ubuntu-latest
@@ -61,8 +62,9 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           VERSION=$(cat version.txt)
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/my-flask-app:v3 -f app/Dockerfile .
-          docker push ${{ secrets.DOCKER_USERNAME }}/my-flask-app:v3
+          echo "Building and pushing image with version: $VERSION"
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/my-flask-app:${VERSION} -f app/Dockerfile .
+          docker push ${{ secrets.DOCKER_USERNAME }}/my-flask-app:${VERSION}
 
   deploy:
     runs-on: ubuntu-latest
