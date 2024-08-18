@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-flask-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-flask-app
+  template:
+    metadata:
+      labels:
+        app: my-flask-app
+    spec:
+      containers:
+      - name: my-flask-app
+        image: <DOCKER_USERNAME>/my-flask-app:<VERSION>
+        ports:
+        - containerPort: 8080
