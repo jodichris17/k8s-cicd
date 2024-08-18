@@ -31,9 +31,9 @@ jobs:
         id: current_version
         run: |
           if [ ! -f version.txt ]; then
-            echo "v1" > version.txt
+          echo "v1" > version.txt
           fi
-          CURRENT_VERSION=$(cat version.txt)
+          CURRENT_VERSION=$(cat version.txt | sed 's/^VERSION=//')
           echo "Current version: $CURRENT_VERSION"
           NEXT_VERSION="v$(( ${CURRENT_VERSION:1} + 1 ))"
           echo $NEXT_VERSION > version.txt
