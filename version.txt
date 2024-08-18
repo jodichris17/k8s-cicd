@@ -1,1 +1,1 @@
-(cat version.txt)
+v1
