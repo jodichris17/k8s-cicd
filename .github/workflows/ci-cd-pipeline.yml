@@ -40,15 +40,13 @@ jobs:
             echo "New version: $(cat version.txt)"
             echo "::set-output name=version::$(cat version.txt)"
  
-      - name: Save Version
-        run: echo "(cat version.txt)" > version.txt
 
       - name: Commit Version
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add version.txt
-          git commit -m "Bump version to ${{ steps.version.outputs.version }}"
+          git commit -m "Bump version to $(cat version.txt)"
           git push
 
   build:
