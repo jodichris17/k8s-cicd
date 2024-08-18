@@ -31,15 +31,15 @@ jobs:
         id: current_version
         run: |
           if [ ! -f version.txt ]; then
-          echo "v1" > version.txt
-          fi
-          CURRENT_VERSION=$(cat version.txt | sed 's/^VERSION=//')
-          echo "Current version: $CURRENT_VERSION"
-          NEXT_VERSION="v$(( ${CURRENT_VERSION:1} + 1 ))"
+            echo "v1" > version.txt
+          else
+            CURRENT_VERSION=$(cat version.txt)
+            NEXT_VERSION="v$(( ${CURRENT_VERSION:1} + 1 ))"
           echo $NEXT_VERSION > version.txt
-          echo "New version: $NEXT_VERSION"
-          echo "::set-output name=version::$NEXT_VERSION"
-
+          fi
+            echo "New version: $(cat version.txt)"
+            echo "::set-output name=version::$(cat version.txt)"
+ 
       - name: Save Version
         run: echo "VERSION=$(cat version.txt)" > version.txt
 
