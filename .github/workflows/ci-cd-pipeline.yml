@@ -40,7 +40,16 @@ jobs:
             echo "New version: $(cat version.txt)"
             echo "::set-output name=version::$(cat version.txt)"
  
+      - name: Save Version
+        run: echo "(cat version.txt)" > version.txt
 
+      - name: Commit Version
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add version.txt
+          git commit -m "Bump version to ${{ steps.version.outputs.version }}"
+          git push
 
   build:
     runs-on: ubuntu-latest
@@ -79,7 +88,7 @@ jobs:
 
       - name: Deploy to K8s
         run: |
-          kubectl apply -f k8s/deployment.yaml
+          kubectl apply --dry-run=client -f k8s/deployment.yaml
           kubectl rollout status deployment/my-flask-app
 
   test:
