@@ -60,9 +60,8 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          VERSION=$(cat version.txt)
-          docker build -t jchrisjordan/my-flask-app:${VERSION} -f app/Dockerfile .
-          docker push jchrisjordan/my-flask-app:${VERSION}
+          docker build -t jchrisjordan/my-flask-app:v1 -f app/Dockerfile .
+          docker push jchrisjordan/my-flask-app:v1
 
   deploy:
     runs-on: ubuntu-latest
