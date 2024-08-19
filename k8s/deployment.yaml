@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: my-flask-app
-        image: <DOCKER_USERNAME>/my-flask-app:<VERSION>
+        image: jchrisjordan/my-flask-app
         ports:
         - containerPort: 8080
