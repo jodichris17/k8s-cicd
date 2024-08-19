@@ -94,5 +94,5 @@ jobs:
     needs: deploy
     steps:
       - name: Run Tests
-        run: curl http://<K8S_CLUSTER_IP>:<PORT> | grep "Hello, welcome to my simple HTTP REST application!"
-        
+        run: curl http://192.168.49.2:30001 | grep "Hello, welcome to my simple HTTP REST application!"
+
