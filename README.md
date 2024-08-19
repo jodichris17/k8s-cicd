@@ -1,5 +1,87 @@
 # k8s-cicd
 
+# Task 1
+# Flask Application Deployment on Kubernetes
+
+This repository contains a simple Flask application and the necessary configuration files to deploy it in a Kubernetes cluster using Docker, Terraform, and Kubernetes manifests.
+
+## Project Structure
+
+```
+├── app.py # Flask application
+├── Dockerfile # Dockerfile to containerize the Flask app
+├── version.txt # File to keep track of application version
+├── requirements.txt # Python dependencies
+├── deployment.yaml # Kubernetes Deployment manifest
+├── service.yaml # Kubernetes Service manifest
+├── terraform/ # Directory containing Terraform scripts for Kubernetes cluster provisioning
+└── .github/workflows/ # CI/CD pipeline configuration
+```
+
+## Prerequisites
+
+- **Docker**: To build and push the Docker image.
+- **Kubernetes**: A running Kubernetes cluster.
+- **kubectl**: To manage Kubernetes resources.
+- **Terraform**: If provisioning the Kubernetes cluster with Terraform.
+- **GitHub Actions**: CI/CD pipeline configured in `.github/workflows/`.
+
+## Setup
+
+### 1. Build the Docker Image
+
+Build and tag the Docker image for the Flask application.
+
+```bash
+docker build -t your-dockerhub-username/my-flask-app:v1 .
+```
+
+2. Push the Docker Image
+
+Push the Docker image to Docker Hub (or any other container registry).
+
+```bash
+docker push your-dockerhub-username/my-flask-app:v1
+```
+3. Kubernetes Deployment
+Deploy the Application
+
+Apply the Kubernetes Deployment manifest to create the application pods:
+
+```bash
+kubectl apply -f deployment.yaml
+```
+Expose the Application
+
+Apply the Kubernetes Service manifest to expose the application:
+
+```bash
+
+kubectl apply -f service.yaml
+```
+4. Access the Application
+
+Depending on the type of service you used (ClusterIP, NodePort, or LoadBalancer), access the application as follows:
+
+- ClusterIP: Access internally using the service name.
+- NodePort: Access externally using http://NodeIP:NodePort.
+LoadBalancer: Access using the external IP provided by the cloud provider.
+
+5. CI/CD Pipeline
+
+The CI/CD pipeline is configured to automate the following stages:
+
+- Cluster Provisioning: Provision a local or managed Kubernetes cluster using Terraform.
+- Versioning: Increment the application version automatically on each push to the main branch.
+- Build and Push: Build the Docker image and push it to the container registry.
+- Deployment: Deploy the latest version of the application to the Kubernetes cluster.
+
+The pipeline is triggered on every push to the main branch.
+
+6. Versioning
+
+The versioning process is automated. The current version is stored in the version.txt file and is automatically incremented on every push to the main branch.
+
 # Task 2
 
 # Point of Sale (POS) System Architecture
