@@ -1,20 +1,17 @@
-# Use the official Python image from the Docker Hub
-FROM python:3.11-slim
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
 
-# Set the working directory in the container
+# Set the working directory
 WORKDIR /app
 
-# Copy the requirements file into the container
-ADD requirements.txt /app/
+# Copy the current directory contents into the container at /app
+ADD . /app
 
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir Flask
 
-# Copy the rest of the application code into the container
-COPY . /app
-
-# Expose port 8080
+# Make port 8080 available to the world outside this container
 EXPOSE 8080
 
-# Run the application
+# Run app.py when the container launches
 CMD ["python", "app.py"]
