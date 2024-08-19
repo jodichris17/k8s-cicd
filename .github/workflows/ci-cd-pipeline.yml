@@ -17,6 +17,7 @@ jobs:
 
       - name: Provision Minikube Cluster
         run: |
+          echo "whoami"
           cd terraform-minikube
           terraform init
           terraform apply -auto-approve
