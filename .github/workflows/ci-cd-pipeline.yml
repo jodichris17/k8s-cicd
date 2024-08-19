@@ -95,3 +95,4 @@ jobs:
     steps:
       - name: Run Tests
         run: curl http://<K8S_CLUSTER_IP>:<PORT> | grep "Hello, welcome to my simple HTTP REST application!"
+        
