@@ -17,7 +17,6 @@ jobs:
 
       - name: Provision Minikube Cluster
         run: |
-          whoami
           cd terraform-minikube
           terraform init
           terraform apply -auto-approve
@@ -51,7 +50,7 @@ jobs:
           git push
 
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: versioning
     steps:
       - name: Checkout code
